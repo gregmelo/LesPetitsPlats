@@ -29,8 +29,10 @@ export function dropdownTemplate() {
   dropdownContainer.appendChild(appliancesContainer);
   dropdownContainer.appendChild(utensilsContainer);
 
+  const dropdowns = [ingredientsContainer, appliancesContainer, utensilsContainer];
+
   // Initialise le gestionnaire de clics en dehors du dropdown
-  setupOutsideClickHandler(dropdownContainer);
+  setupOutsideClickHandler(dropdowns);
 
   return dropdownCounterContainer;
 }

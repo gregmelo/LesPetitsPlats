@@ -2,6 +2,7 @@ import { headerTemplate } from "../templates/headerTemplate.js";
 import { dropdownTemplate } from "../templates/dropdownTemplate.js";
 import { createRecipeCard } from "../templates/recipesCardTemplate.js";
 import { recipes } from "../../data/recipes.js";
+import { removeSpacesAndAccents } from "../utils/removeSpacesAndAccents.js";
 
 document.addEventListener('DOMContentLoaded', () => {
   headerTemplate();
@@ -49,23 +50,23 @@ function populateDropdown(recipes) {
 function addItemsToDropdown(type, items) {
   const dropdownContent = document.querySelector(`#${type} .dropdown-content`);
   items.forEach(item => {
-    console.log('item : ', item);
     const option = document.createElement('div');
     option.className = 'dropdown-item';
-    option.setAttribute('id', `item-${item}`);
+    option.setAttribute('id', `item-${removeSpacesAndAccents(item)}`);
     option.textContent = item;
+    
     if (dropdownContent) {
       dropdownContent.appendChild(option);
     }
+
     const clearItem = document.createElement('img');
     clearItem.src = '../../assets/icons/xmark_item.svg';
     clearItem.className = 'clear-iconItems';
-    clearItem.setAttribute('id', `clear-${item}`);
     clearItem.alt = 'Icône de suppression';
     clearItem.style.display = 'none';
 
     clearItem.addEventListener('click', (event) => {
-      event.stopPropagation(); // Empêche le clic de se propager à l'élément parent
+      event.stopPropagation();
       option.classList.remove('selected');
       clearItem.style.display = 'none';
     });
@@ -73,4 +74,5 @@ function addItemsToDropdown(type, items) {
     option.appendChild(clearItem);
   });
 }
+
 
