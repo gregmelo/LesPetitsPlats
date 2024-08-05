@@ -1,0 +1,247 @@
+:root {
+  --yellow: #FFD15B;
+  --background: #EDEDED;
+  --black: #1b1b1b;
+}
+
+body {
+  margin: auto;
+  padding: 0;
+  background-color: var(--background);
+  display: flex;
+  flex-direction: column;
+  font-family: "Manrope", sans-serif;
+}
+
+/* HEADER */
+header {
+  height: 667px;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+   background: url('../assets/img/header-bg.jpg') no-repeat center center/cover;
+
+  // .bgc-header {
+  //   width: 100%;
+  //   height: 100%;
+  //   position: absolute;
+  //   object-fit: cover;
+  // }
+
+  .logo {
+    position: absolute;
+    top: 51px;
+    left: 69px;
+    height: 25px;
+  }
+
+  .titleSearch-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    h1 {
+      text-align: center;
+      font-family: 'Anton', sans-serif;
+      text-transform: uppercase;
+      font-size: 44px;
+      color: var(--yellow);
+    }
+
+    .form-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+      height: 72px;
+      width: 954px;
+
+      input {
+        width: 100%;
+        height: 72px;
+        padding-left: 35px;
+        padding-right: 16px;
+        font-family: 'Manrope', sans-serif;
+        border-radius: 11px;
+        border: none;
+        box-sizing: border-box;
+        position: relative;
+
+        &::placeholder {
+          font-size: 12px;
+        }
+
+        &:focus {
+          outline: none;
+        }
+        & + .clear-icon {
+          position: absolute;
+          right: 85px;
+          width: 13px;
+          height: 13px;
+          display: block;
+        }
+      }
+
+      button {
+        position: absolute;
+        right: 10px;
+        width: 51px;
+        height: 52px;
+        border-radius: 10px;
+        padding: 0;
+        margin-left: 17px;
+        cursor: pointer;
+        border: none;
+
+        img {
+          position: relative;
+          width: 51px;
+          height: 52px;
+        }
+      }
+    }
+  }
+}
+
+/* MAIN */
+
+/* Dropdown */
+#dropdownCounter-container {
+  margin: 21px 0 0 104px;
+  display: flex;
+  align-items: center;
+}
+.dropdown-container {
+  display: flex;
+  gap: 63px;
+}
+.dropdown {
+  position: relative;
+  display: inline-block;
+  width: 200px;
+}
+
+.dropdown-button {
+  width: 100%;
+  height: 56px;
+  padding: 17px 16px;
+  text-align: left;
+  background-color: white;
+  border: none;
+  border-radius: 11px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .arrow-down {
+    font-size: 12px;
+  }
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 100%;
+  z-index: 1;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.dropdown.active .dropdown-button {
+  border-radius: 11px 11px 0 0;
+}
+
+.dropdown.active .dropdown-content {
+  display: block;
+  border-radius: 0 0 11px 11px;
+}
+
+
+.form-dropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 36px;
+  width: 163px;
+  border: none;
+  background-color: #fff;
+  padding: 0 16px;
+
+  input {
+    width: 100%;
+    margin: 0 auto;
+    height: 36px;
+    padding: 0 50px 0 10px;
+    font-family: 'Manrope', sans-serif;
+    border: 1px solid #c6c6c6;
+    box-sizing: border-box;
+    position: relative;
+
+    &::placeholder {
+      font-size: 12px;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .search-iconDropdown, .clear-iconDropdown {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+
+  .clear-iconDropdown {
+    right: 42px; /* Ajustez pour positionner juste à gauche de l'icône de recherche */
+    display: none; /* Par défaut, cachée */
+    width: 6px; /* Taille ajustée */
+    height: 6px; /* Taille ajustée */
+  }
+
+  .search-iconDropdown {
+    right: 22px; /* Aligné à droite à l'intérieur de l'input */
+    width: 14px; /* Taille ajustée */
+    height: 14px; /* Taille ajustée */
+  }
+}
+
+.dropdown-item {
+  padding: 10px;
+  cursor: pointer;
+  background-color: white;
+  transition: background-color 0.3s;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    background-color: var(--yellow);
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.clear-iconItems {
+  position: absolute;
+  right: 10px;
+  width: 17px;
+  height: 17px;
+}
+
+.recipe-counter {
+  font-family: 'anton', sans-serif;
+  font-size: 21px;
+  font-weight: 400;
+  color: var(--black);
+  right: 102px;
+  position: absolute;
+}
