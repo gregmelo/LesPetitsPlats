@@ -1,20 +1,18 @@
-@charset "UTF-8";
-:root {
-  --yellow: #FFD15B;
-  --background: #EDEDED;
-  --black: #1b1b1b;
-}
-
 body {
   margin: auto;
   padding: 0;
-  background-color: var(--background);
+  background-color: #ededed;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   font-family: "Manrope", sans-serif;
 }
 
-/* HEADER */
+h1, h2, h3, h4, h5, h6, ul {
+  margin: 0;
+}
+
 header {
   height: 667px;
   width: 100%;
@@ -42,11 +40,14 @@ header .titleSearch-container h1 {
   font-family: "Anton", sans-serif;
   text-transform: uppercase;
   font-size: 44px;
-  color: var(--yellow);
+  color: #ffd15b;
+  margin-bottom: 30px;
 }
 header .titleSearch-container .form-container {
   position: relative;
   display: flex;
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
   height: 72px;
   width: 954px;
@@ -60,7 +61,6 @@ header .titleSearch-container .form-container input {
   border-radius: 11px;
   border: none;
   box-sizing: border-box;
-  position: relative;
 }
 header .titleSearch-container .form-container input::placeholder {
   font-size: 12px;
@@ -68,7 +68,7 @@ header .titleSearch-container .form-container input::placeholder {
 header .titleSearch-container .form-container input:focus {
   outline: none;
 }
-header .titleSearch-container .form-container input + .clear-icon {
+header .titleSearch-container .form-container .clear-icon {
   position: absolute;
   right: 85px;
   width: 13px;
@@ -87,13 +87,10 @@ header .titleSearch-container .form-container button {
   border: none;
 }
 header .titleSearch-container .form-container button img {
-  position: relative;
   width: 51px;
   height: 52px;
 }
 
-/* MAIN */
-/* Dropdown */
 #dropdownCounter-container {
   margin: 21px 0 0 104px;
   display: flex;
@@ -110,7 +107,6 @@ header .titleSearch-container .form-container button img {
   display: inline-block;
   width: 200px;
 }
-
 .dropdown-button {
   width: 100%;
   height: 56px;
@@ -127,7 +123,6 @@ header .titleSearch-container .form-container button img {
 .dropdown-button .arrow-down {
   font-size: 12px;
 }
-
 .dropdown-content {
   display: none;
   position: absolute;
@@ -137,11 +132,9 @@ header .titleSearch-container .form-container button img {
   max-height: 200px;
   overflow-y: auto;
 }
-
 .dropdown.active .dropdown-button {
   border-radius: 11px 11px 0 0;
 }
-
 .dropdown.active .dropdown-content {
   display: block;
   border-radius: 0 0 11px 11px;
@@ -150,6 +143,8 @@ header .titleSearch-container .form-container button img {
 .form-dropdown {
   position: relative;
   display: flex;
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
   height: 36px;
   width: 163px;
@@ -165,7 +160,6 @@ header .titleSearch-container .form-container button img {
   font-family: "Manrope", sans-serif;
   border: 1px solid #c6c6c6;
   box-sizing: border-box;
-  position: relative;
 }
 .form-dropdown input::placeholder {
   font-size: 12px;
@@ -173,22 +167,23 @@ header .titleSearch-container .form-container button img {
 .form-dropdown input:focus {
   outline: none;
 }
-.form-dropdown .search-iconDropdown, .form-dropdown .clear-iconDropdown {
+.form-dropdown .search-iconDropdown,
+.form-dropdown .clear-iconDropdown {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
 }
 .form-dropdown .clear-iconDropdown {
-  right: 42px; /* Ajustez pour positionner juste à gauche de l'icône de recherche */
-  display: none; /* Par défaut, cachée */
-  width: 6px; /* Taille ajustée */
-  height: 6px; /* Taille ajustée */
+  right: 42px;
+  display: none;
+  width: 6px;
+  height: 6px;
 }
 .form-dropdown .search-iconDropdown {
-  right: 22px; /* Aligné à droite à l'intérieur de l'input */
-  width: 14px; /* Taille ajustée */
-  height: 14px; /* Taille ajustée */
+  right: 22px;
+  width: 14px;
+  height: 14px;
 }
 
 .dropdown-item {
@@ -200,7 +195,10 @@ header .titleSearch-container .form-container button img {
   align-items: center;
 }
 .dropdown-item:hover {
-  background-color: var(--yellow);
+  background-color: #ffd15b;
+}
+.dropdown-item.selected {
+  background-color: #ffd15b;
 }
 .dropdown-item:last-child {
   border-bottom: none;
@@ -217,7 +215,107 @@ header .titleSearch-container .form-container button img {
   font-family: "anton", sans-serif;
   font-size: 21px;
   font-weight: 400;
-  color: var(--black);
+  color: #1b1b1b;
   right: 102px;
   position: absolute;
+}
+
+.recipes-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 66px 0;
+  justify-content: space-between;
+  margin: 55px 102px 0 102px;
+}
+
+.recipe-card {
+  position: relative;
+  width: 30%;
+  border: 1px solid #ddd;
+  border-radius: 21px;
+  overflow: hidden;
+  box-shadow: 0px 4px 34px 30px rgba(0, 0, 0, 0.0392156863);
+}
+.recipe-card img {
+  width: 100%;
+  height: 253px;
+  object-fit: cover;
+}
+.recipe-card .content {
+  padding: 25px 25px 61px;
+}
+.recipe-card .content h2 {
+  font-size: 18px;
+  font-family: Anton, sans-serif;
+  font-weight: 400;
+  line-height: 27px;
+  margin-bottom: 29px;
+}
+.recipe-card .content .recipe-info {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.recipe-card .content .recipe-info h3 {
+  font-family: Manrope, sans-serif;
+  font-size: 12px;
+  color: #7a7a7a;
+  font-weight: 700;
+  line-height: 16.39px;
+  letter-spacing: 0.09em;
+  text-align: left;
+  margin-bottom: 15px;
+}
+.recipe-card .content p {
+  font-family: Manrope;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 19.12px;
+  text-align: left;
+  color: #1b1b1b;
+  margin: 0;
+  line-clamp: 4;
+  -webkit-line-clamp: 4;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.recipe-card .content .time {
+  position: absolute;
+  right: 22px;
+  top: 21px;
+  background-color: #f8c202;
+  border-radius: 4px;
+  padding: 2px 8px;
+  display: inline-block;
+  margin-top: 10px;
+}
+
+.recipe-ingredients, .ingredients {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+}
+.recipe-ingredients li, .ingredients li {
+  flex: 1 0 50%;
+  box-sizing: border-box;
+  padding-right: 10px;
+  margin-bottom: 21px;
+}
+
+.ingredient-name, .ingredient-quantity {
+  font-family: Manrope;
+  font-size: 14px;
+  line-height: 19.12px;
+  text-align: left;
+}
+.ingredient-name.ingredient-name, .ingredient-quantity.ingredient-name {
+  font-weight: 500;
+  color: #1b1b1b;
+}
+.ingredient-name.ingredient-quantity, .ingredient-quantity.ingredient-quantity {
+  font-weight: 400;
+  color: #7a7a7a;
 }

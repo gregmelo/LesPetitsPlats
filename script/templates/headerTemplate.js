@@ -1,3 +1,5 @@
+import { setupClearIcon } from '../utils/clearIcon.js'; // Assurez-vous d'utiliser le bon chemin
+
 export function headerTemplate() {
   const headerTemplate = document.getElementById('header')
   if (headerTemplate === null) {
@@ -60,17 +62,7 @@ export function headerTemplate() {
 
     // Ajout des événements pour afficher/cacher l'icône de suppression
     searchInput.addEventListener('input', function() {
-      if (searchInput.value) {
-        clearIcon.style.display = 'block'; // Affiche l'icône de suppression
-      } else {
-        clearIcon.style.display = 'none'; // Masque l'icône de suppression
-      }
-    });
-  
-    clearIcon.addEventListener('click', function() {
-      searchInput.value = ''; // Vide l'input
-      clearIcon.style.display = 'none'; // Masque l'icône de suppression
-      searchInput.focus(); // Re-focalise l'input
+      setupClearIcon(searchInput, clearIcon);
     });
 
   // Liens des images pour les états normal et hover
