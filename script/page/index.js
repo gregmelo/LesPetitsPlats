@@ -61,7 +61,7 @@ function addItemsToDropdown(type, items) {
     }
 
     const clearItem = document.createElement('img');
-    clearItem.src = '../../assets/icons/xmark_item.svg';
+    clearItem.src = './assets/icons/xmark_item.svg';
     clearItem.className = 'clear-iconItems';
     clearItem.alt = 'Icône de suppression';
     clearItem.style.display = 'none';

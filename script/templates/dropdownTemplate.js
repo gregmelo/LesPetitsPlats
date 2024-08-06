@@ -29,7 +29,11 @@ export function dropdownTemplate() {
   dropdownContainer.appendChild(appliancesContainer);
   dropdownContainer.appendChild(utensilsContainer);
 
-  const dropdowns = [ingredientsContainer, appliancesContainer, utensilsContainer];
+  const dropdowns = [
+    ingredientsContainer,
+    appliancesContainer,
+    utensilsContainer,
+  ];
 
   // Initialise le gestionnaire de clics en dehors du dropdown
   setupOutsideClickHandler(dropdowns);
@@ -47,7 +51,7 @@ function createDropdown(id, placeholder) {
   button.innerHTML = `${placeholder} <span class="arrow-down"></span>`;
 
   const arrowImg = document.createElement("img");
-  arrowImg.src = "../../assets/icons/chevron_down.svg";
+  arrowImg.src = "./assets/icons/chevron_down.svg";
   arrowImg.alt = "Flèche de dropdown";
   arrowImg.className = "dropdown-arrow";
 
@@ -106,10 +110,10 @@ function toggleDropdown(container, arrowImg) {
   container.classList.toggle("active");
 
   if (container.classList.contains("active")) {
-    arrowImg.src = "../../assets/icons/chevron_up.svg"; // Changement de l'icône lorsque le dropdown est actif
+    arrowImg.src = "./assets/icons/chevron_up.svg"; // Changement de l'icône lorsque le dropdown est actif
     container.style.borderRadius = "11px 11px 0 0";
   } else {
-    arrowImg.src = "../../assets/icons/chevron_down.svg"; // Réinitialisation de l'icône lorsque le dropdown est inactif
+    arrowImg.src = "./assets/icons/chevron_down.svg"; // Réinitialisation de l'icône lorsque le dropdown est inactif
     container.style.borderRadius = "11px";
   }
 }
