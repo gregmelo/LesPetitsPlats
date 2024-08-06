@@ -81,12 +81,12 @@ function createDropdown(id, placeholder) {
     filterDropdown(searchInputDropdown, dropdownContent);
 
   const searchIcon = document.createElement("img");
-  searchIcon.src = "assets/icons/loop_cta_grey.svg";
+  searchIcon.src = "./assets/icons/loop_cta_grey.svg";
   searchIcon.className = "search-iconDropdown";
   searchIcon.alt = "Icône de recherche";
 
   const clearIconDropdown = document.createElement("img");
-  clearIconDropdown.src = "assets/icons/xmark_grey.svg";
+  clearIconDropdown.src = "./assets/icons/xmark_grey.svg";
   clearIconDropdown.className = "clear-iconDropdown";
   clearIconDropdown.alt = "Icône de suppression";
   clearIconDropdown.style.display = "none";
