@@ -33,7 +33,7 @@ function closeAllDropdowns(dropdowns, excludeDropdown = null) {
       dropdown.classList.remove('active');
       const arrowImg = dropdown.querySelector('.dropdown-arrow');
       if (arrowImg) {
-        arrowImg.src = "../../assets/icons/chevron_down.svg";
+        arrowImg.src = "./assets/icons/chevron_down.svg";
       }
       dropdown.style.borderRadius = '11px';
     }

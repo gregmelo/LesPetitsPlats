@@ -3,7 +3,6 @@ import { dropdownTemplate } from "../templates/dropdownTemplate.js";
 import { createRecipeCard } from "../templates/recipesCardTemplate.js";
 import { recipes } from "../../data/recipes.js";
 import { removeSpacesAndAccents } from "../utils/removeSpacesAndAccents.js";
-import { addTag } from "../utils/tagsDisplay.js";
 
 document.addEventListener('DOMContentLoaded', () => {
   headerTemplate();
