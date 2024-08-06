@@ -1,3 +1,15 @@
+@font-face {
+  font-family: "Anton";
+  src: url("../fonts/Anton/Anton-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Manrope";
+  src: url("../fonts/Manrope/Manrope-VariableFont_wght.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
 body {
   margin: auto;
   padding: 0;
@@ -9,7 +21,13 @@ body {
   font-family: "Manrope", sans-serif;
 }
 
-h1, h2, h3, h4, h5, h6, ul {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ul {
   margin: 0;
 }
 
@@ -220,6 +238,41 @@ header .titleSearch-container .form-container button img {
   position: absolute;
 }
 
+#tags-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 21px 0 0 104px;
+  gap: 15px 63px;
+  flex-wrap: wrap;
+  max-width: 735px;
+}
+
+.tag {
+  width: 203px;
+  height: 53px;
+  gap: 60px;
+  border-radius: 10px;
+  background-color: #ffd15b;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-family: "Manrope", sans-serif;
+  font-size: 14px;
+  color: #000000;
+}
+
+.remove-icon {
+  width: 10px;
+  height: 10px;
+}
+
+.remove-icon path {
+  stroke: #1b1b1b;
+  stroke-width: 2;
+}
+
 .recipes-container {
   display: flex;
   flex-wrap: wrap;
@@ -246,7 +299,7 @@ header .titleSearch-container .form-container button img {
 }
 .recipe-card .content h2 {
   font-size: 18px;
-  font-family: Anton, sans-serif;
+  font-family: "Anton", sans-serif;
   font-weight: 400;
   line-height: 27px;
   margin-bottom: 29px;
@@ -257,7 +310,7 @@ header .titleSearch-container .form-container button img {
   gap: 32px;
 }
 .recipe-card .content .recipe-info h3 {
-  font-family: Manrope, sans-serif;
+  font-family: "Manrope", sans-serif;
   font-size: 12px;
   color: #7a7a7a;
   font-weight: 700;
@@ -267,7 +320,7 @@ header .titleSearch-container .form-container button img {
   margin-bottom: 15px;
 }
 .recipe-card .content p {
-  font-family: Manrope;
+  font-family: "Manrope", sans-serif;
   font-size: 14px;
   font-weight: 400;
   line-height: 19.12px;
@@ -285,37 +338,40 @@ header .titleSearch-container .form-container button img {
   position: absolute;
   right: 22px;
   top: 21px;
-  background-color: #f8c202;
+  background-color: #ffd15b;
   border-radius: 4px;
   padding: 2px 8px;
   display: inline-block;
   margin-top: 10px;
 }
 
-.recipe-ingredients, .ingredients {
+.recipe-ingredients .ingredients {
   display: flex;
   flex-wrap: wrap;
   list-style: none;
   padding: 0;
 }
-.recipe-ingredients li, .ingredients li {
+.recipe-ingredients li {
   flex: 1 0 50%;
   box-sizing: border-box;
   padding-right: 10px;
   margin-bottom: 21px;
 }
 
-.ingredient-name, .ingredient-quantity {
-  font-family: Manrope;
+.ingredient-name,
+.ingredient-quantity {
+  font-family: "Manrope", sans-serif;
   font-size: 14px;
   line-height: 19.12px;
   text-align: left;
 }
-.ingredient-name.ingredient-name, .ingredient-quantity.ingredient-name {
+.ingredient-name.ingredient-name,
+.ingredient-quantity.ingredient-name {
   font-weight: 500;
   color: #1b1b1b;
 }
-.ingredient-name.ingredient-quantity, .ingredient-quantity.ingredient-quantity {
+.ingredient-name.ingredient-quantity,
+.ingredient-quantity.ingredient-quantity {
   font-weight: 400;
   color: #7a7a7a;
 }

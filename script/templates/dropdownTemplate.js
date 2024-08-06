@@ -62,7 +62,7 @@ function createDropdown(id, placeholder) {
   dropdownContent.className = "dropdown-content";
 
   // Gére le survol des éléments de dropdown
-  setupHoverHandler(dropdownContent);
+  setupHoverHandler(dropdownContent, id);
 
   const formSearch = document.createElement("form");
   formSearch.className = "form-dropdown";

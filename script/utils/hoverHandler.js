@@ -1,9 +1,19 @@
-export function setupHoverHandler(dropdownContent) {
+import { addTag, removeTag } from './tagsDisplay.js';
+
+export function setupHoverHandler(dropdownContent,  type) {
   dropdownContent.addEventListener('click', (event) => {
     const clickedItem = event.target.closest('.dropdown-item');
     if (clickedItem) {
+      const itemText = clickedItem.textContent.trim();
       clickedItem.classList.toggle('selected');
       updateClearIconVisibility(clickedItem);
+
+      if (clickedItem.classList.contains('selected')) {
+        addTag(itemText, type);
+      } else {
+        removeTag(`tag-${type}-${itemText}`);
+      }
+
     }
   });
 }
