@@ -40,7 +40,7 @@ function extractUniqueItems(recipes) {
   return { ingredientsSet, appliancesSet, ustensilsSet };
 }
 
-function populateDropdown(recipes) {
+export function populateDropdown(recipes) {
   const { ingredientsSet, appliancesSet, ustensilsSet } = extractUniqueItems(recipes);
   addItemsToDropdown('ingredients', ingredientsSet);
   addItemsToDropdown('appliances', appliancesSet);
