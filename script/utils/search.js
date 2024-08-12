@@ -5,6 +5,7 @@ import { createRecipeCard } from "../templates/recipesCardTemplate.js"; // On im
 import { extractUniqueItems } from "./extractUniqueItems.js"; // On importe la fonction pour extraire les éléments uniques (ingrédients, appareils, ustensiles)
 import { removeSpacesAndAccents } from "./removeSpacesAndAccents.js"; // On importe la fonction pour normaliser les chaînes de caractères
 import { addTag, removeTag } from "./tagsDisplay.js"; // On importe les fonctions pour gérer l'ajout et la suppression de tags
+import { filterDropdown } from "../templates/dropdownTemplate.js"; // On importe la fonction pour filtrer les éléments du menu déroulant
 
 // On utilise des objets pour garder les filtres actifs
 // On utilise Set pour stocker les filtres actifs, garantissant ainsi l'unicité des éléments
@@ -118,6 +119,31 @@ function updateDropdown(type, items) {
     dropdownContent.innerHTML = "";
   }
 
+  const formSearch = document.createElement("form");
+  formSearch.className = "form-dropdown";
+
+  const searchInputDropdown = document.createElement("input");
+  searchInputDropdown.type = "text";
+  searchInputDropdown.name = "searchDropdown";
+  searchInputDropdown.className = "searchDropdown";
+  searchInputDropdown.oninput = () =>
+    filterDropdown(searchInputDropdown, dropdownContent);
+
+  const searchIcon = document.createElement("img");
+  searchIcon.src = "./assets/icons/Loop_CTA_grey.svg";
+  searchIcon.className = "search-iconDropdown";
+  searchIcon.alt = "Icône de recherche";
+
+  const clearIconDropdown = document.createElement("img");
+  clearIconDropdown.src = "./assets/icons/xmark_grey.svg";
+  clearIconDropdown.className = "clear-iconDropdown";
+  clearIconDropdown.alt = "Icône de suppression";
+  clearIconDropdown.style.display = "none";
+
+  formSearch.appendChild(searchInputDropdown);
+  formSearch.appendChild(clearIconDropdown);
+  formSearch.appendChild(searchIcon);
+  dropdownContent.appendChild(formSearch);
   // On parcourt chaque élément à ajouter au menu déroulant
   items.forEach((item) => {
     // On crée un nouvel élément de menu déroulant

@@ -118,7 +118,7 @@ function toggleDropdown(container, arrowImg) {
   }
 }
 
-function filterDropdown(input, dropdownContent) {
+export function filterDropdown(input, dropdownContent) {
   const filter = input.value.toLowerCase();
   const items = dropdownContent.querySelectorAll(".dropdown-item");
   items.forEach((item) => {

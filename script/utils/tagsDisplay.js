@@ -86,3 +86,16 @@ export function removeTag(tagId) {
     tagElement.remove();
   }
 }
+
+// Fonction pour supprimer tous les tags
+export function removeAllTags() {
+  const tagsContainer = document.getElementById('tags-container');
+  if (tagsContainer) {
+    // On supprime tous les enfants du conteneur des tags
+    while (tagsContainer.firstChild) {
+      tagsContainer.firstChild.remove();
+    }
+  } else {
+    console.log("Le conteneur des tags n'a pas été trouvé");
+  }
+}
