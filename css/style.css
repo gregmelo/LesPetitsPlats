@@ -109,6 +109,11 @@ header .titleSearch-container .form-container button img {
   height: 52px;
 }
 
+main {
+  width: 100%;
+  position: relative;
+}
+
 #dropdownCounter-container {
   margin: 21px 0 0 104px;
   display: flex;
@@ -276,14 +281,16 @@ header .titleSearch-container .form-container button img {
 .recipes-container {
   display: flex;
   flex-wrap: wrap;
+  width: auto;
   gap: 66px 0;
   justify-content: space-between;
-  margin: 55px 102px 0 102px;
+  margin: 55px 102px 55px 102px;
 }
 
 .recipe-card {
+  box-sizing: border-box;
   position: relative;
-  width: 30%;
+  width: calc(30% - 20px);
   border: 1px solid #ddd;
   border-radius: 21px;
   overflow: hidden;

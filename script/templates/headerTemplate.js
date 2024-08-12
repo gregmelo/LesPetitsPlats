@@ -28,7 +28,7 @@ export function headerTemplate() {
   const searchInput = document.createElement('input')
   searchInput.type = 'text'
   searchInput.name = 'search'
-  searchInput.id = 'search'
+  searchInput.id = 'search-bar'
   searchInput.className = 'search'
   searchInput.placeholder = 'Recherchez une recette, un ingrédient ...'
   searchInput.ariaLabel = 'Recherchez une recette, un ingrédient ...'

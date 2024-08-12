@@ -2,6 +2,8 @@ import { headerTemplate } from "../templates/headerTemplate.js";
 import { dropdownTemplate } from "../templates/dropdownTemplate.js";
 import { createRecipeCard } from "../templates/recipesCardTemplate.js";
 import { recipes } from "../../data/recipes.js";
+import { handleSearch } from "../utils/search.js";
+import { extractUniqueItems } from "../utils/extractUniqueItems.js";
 import { removeSpacesAndAccents } from "../utils/removeSpacesAndAccents.js";
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -9,36 +11,12 @@ document.addEventListener('DOMContentLoaded', () => {
   dropdownTemplate();
   populateDropdown(recipes);
   createRecipeCard(recipes);
+
+  const searchInput = document.querySelector('#search-bar');
+  if (searchInput) {
+    searchInput.addEventListener('input', handleSearch);
+  }
 });
-
-function extractUniqueItems(recipes) {
-  const ingredientsSet = new Set();
-  const appliancesSet = new Set();
-  const ustensilsSet = new Set();
-
-  recipes.forEach(recipe => {
-    if (Array.isArray(recipe.ingredients)) {
-      recipe.ingredients.forEach(item => {
-        if (item.ingredient) {
-          ingredientsSet.add(item.ingredient);
-        }
-      });
-    }
-
-    if (recipe.appliance) {
-      appliancesSet.add(recipe.appliance);
-    }
-
-    if (Array.isArray(recipe.ustensils)) {
-      recipe.ustensils.forEach(ustensil => {
-        if (ustensil) {
-          ustensilsSet.add(ustensil);
-        }
-      });
-    }
-  });
-  return { ingredientsSet, appliancesSet, ustensilsSet };
-}
 
 function populateDropdown(recipes) {
   const { ingredientsSet, appliancesSet, ustensilsSet } = extractUniqueItems(recipes);
@@ -74,5 +52,3 @@ function addItemsToDropdown(type, items) {
     option.appendChild(clearItem);
   });
 }
-
-
