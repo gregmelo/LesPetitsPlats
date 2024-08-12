@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   dropdownTemplate();
   populateDropdown(recipes);
   createRecipeCard(recipes);
-
+  
   const searchInput = document.querySelector('#search-bar');
   if (searchInput) {
     searchInput.addEventListener('input', handleSearch);

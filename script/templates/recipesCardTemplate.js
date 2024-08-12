@@ -1,16 +1,27 @@
+let numberOfRecipesCreated = 50;
+
 export function createRecipeCard(recipes) {
   const linkRecipeImage = "./assets/recipes-img/";
   const recipesContainer = document.getElementById("recipes-container");
 
   if (!recipesContainer) {
     console.log("Le conteneur de recettes est introuvable");
-    return;
+    return 0;
   }
 
   // Ont s'assure que recipes est un tableau
   if (!Array.isArray(recipes)) {
     console.log("Le paramètre 'recipes' doit être un tableau");
     return;
+  }
+
+  if (recipes.length === 0) {
+    console.log("Aucune recette à afficher");
+    const noRecipe = document.createElement("h2");
+    noRecipe.className = "no-recipe";
+    noRecipe.textContent = "Aucune recette trouvée.";
+    recipesContainer.appendChild(noRecipe);
+    return numberOfRecipesCreated = 0;
   }
 
   const cards = recipes.map((recipe) => {
@@ -64,6 +75,9 @@ export function createRecipeCard(recipes) {
   });
   console.log("Cartes de recettes créées:", cards);
 
+    // Mettre à jour le nombre de recettes créées
+    numberOfRecipesCreated = cards.length;
+
   // Ajoute les cartes au conteneur
   cards.forEach(card => {
     if (recipesContainer && card instanceof HTMLElement) {
@@ -73,6 +87,13 @@ export function createRecipeCard(recipes) {
     }
   });
 
-  console.log("Nombres de recettes:", recipes.length);
+  console.log("Nombres de recettes:", numberOfRecipesCreated);
+
+  // Retourner le nombre de recettes
+  return numberOfRecipesCreated;
 }
 
+// Fonction pour obtenir le nombre de recettes créées
+export function getNumberOfRecipesCreated() {
+  return numberOfRecipesCreated;
+}

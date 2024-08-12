@@ -1,4 +1,4 @@
-import { recipes } from '../../data/recipes.js'; // Importation du fichier de recettes
+import { getNumberOfRecipesCreated } from '../templates/recipesCardTemplate.js'; // Importer la fonction pour obtenir le nombre de recettes créées
 
 export function createCounter(dropdownCounterContainer) {
   if (!dropdownCounterContainer) {
@@ -6,8 +6,9 @@ export function createCounter(dropdownCounterContainer) {
     return;
   }
 
-  // le nombre de recettes
-  const recipeCount = recipes.length;
+  // Créer les cartes de recettes et obtenir le nombre de recettes
+  const recipeCount = getNumberOfRecipesCreated();
+  console.log("recipeCount :", recipeCount);
 
   //élément pour afficher le nombre de recettes
   const counterElement = document.createElement('div');
@@ -16,4 +17,12 @@ export function createCounter(dropdownCounterContainer) {
 
   // Ajoute l'élément au conteneur
   dropdownCounterContainer.appendChild(counterElement);
+}
+
+export function updateCounter() {
+  const counterElement = document.querySelector('.recipe-counter');
+  if (counterElement) {
+    const recipeCount = getNumberOfRecipesCreated();
+    counterElement.textContent = `${recipeCount} recette(s)`;
+  }
 }
