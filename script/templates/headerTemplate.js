@@ -10,7 +10,7 @@ export function headerTemplate() {
 
 
   const logoHeader = document.createElement('img')
-  logoHeader.src = './assets/logo/logo.svg';
+  logoHeader.src = './assets/logo/Logo.svg';
   logoHeader.className = 'logo';
   logoHeader.alt = 'Logo de l\'entreprise Les Petits Plats';
   logoHeader.ariaDescription = 'Logo de l\'entreprise Les Petits Plats';
