@@ -2,6 +2,7 @@
 // script/utils/tagsDisplay.js
 
 import { activeFilters, handleSearch, updateDisplay, filterRecipes } from "./search.js";
+import { removeSpacesAndAccents } from "./removeSpacesAndAccents.js";
 
 export function addTag(text, type) {
   const tagsContainer = document.getElementById('tags-container');
@@ -15,7 +16,7 @@ export function addTag(text, type) {
   // Créez un élément de tag
   const tag = document.createElement('div');
   tag.className = 'tag';
-  tag.id = `tag-${text}`;
+  tag.id = `tag-${removeSpacesAndAccents(text)}`;
   tag.textContent = text;
 
   // Créez un élément SVG pour l'icône de suppression
