@@ -10,7 +10,7 @@ export function headerTemplate() {
 
 
   const logoHeader = document.createElement('img')
-  logoHeader.src = 'assets/logo/logo.svg';
+  logoHeader.src = './assets/logo/logo.svg';
   logoHeader.className = 'logo';
   logoHeader.alt = 'Logo de l\'entreprise Les Petits Plats';
   logoHeader.ariaDescription = 'Logo de l\'entreprise Les Petits Plats';
@@ -39,12 +39,12 @@ export function headerTemplate() {
   searchButton.id = 'search-button'
 
   const searchIcon = document.createElement('img')
-  searchIcon.src = 'assets/icons/loop_cta_black.svg'
+  searchIcon.src = './assets/icons/loop_cta_black.svg'
   searchIcon.className = 'search-icon'
   searchIcon.alt = 'Icone de recherche'
 
   const clearIcon = document.createElement('img');
-  clearIcon.src = 'assets/icons/xmark_grey.svg';
+  clearIcon.src = './assets/icons/xmark_grey.svg';
   clearIcon.className = 'clear-icon';
   clearIcon.alt = 'Icône de suppression';
   clearIcon.style.display = 'none';
