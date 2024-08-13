@@ -6,7 +6,7 @@ import { extractUniqueItems } from "./extractUniqueItems.js"; // On importe la f
 import { removeSpacesAndAccents } from "./removeSpacesAndAccents.js"; // On importe la fonction pour normaliser les chaînes de caractères
 import { addTag, removeTag } from "./tagsDisplay.js"; // On importe les fonctions pour gérer l'ajout et la suppression de tags
 import { filterDropdown } from "../templates/dropdownTemplate.js"; // On importe la fonction pour filtrer les éléments du menu déroulant
-import { updateCounter } from "./counter.js";
+import { updateCounter } from "./counter.js"; // On importe la fonction pour mettre à jour le compteur de recettes
 
 // On utilise des objets pour garder les filtres actifs
 // On utilise Set pour stocker les filtres actifs, garantissant ainsi l'unicité des éléments

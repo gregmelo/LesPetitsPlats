@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 let numberOfRecipesCreated = 50;
 
 export function createRecipeCard(recipes) {
@@ -16,10 +18,12 @@ export function createRecipeCard(recipes) {
   }
 
   if (recipes.length === 0) {
+    const inputValue = document.querySelector("#search-bar").value.toLowerCase();
     console.log("Aucune recette à afficher");
     const noRecipe = document.createElement("h2");
     noRecipe.className = "no-recipe";
-    noRecipe.textContent = "Aucune recette trouvée.";
+    noRecipe.textContent = `Aucune recette ne contient "${inputValue}". Vous pouvez chercher « tarte aux pommes », « poisson », etc.`;
+
     recipesContainer.appendChild(noRecipe);
     return numberOfRecipesCreated = 0;
   }
