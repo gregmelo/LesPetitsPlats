@@ -294,15 +294,16 @@ main {
   flex-direction: row;
   align-items: center;
   margin: 21px 0 0 104px;
-  gap: 15px 63px;
+  gap: 15px 30px;
   flex-wrap: wrap;
   max-width: 735px;
 }
 
 .tag {
-  width: 203px;
+  width: auto;
   height: 53px;
   gap: 60px;
+  padding: 0 20px;
   border-radius: 10px;
   background-color: $yellow;
   @include flex-center();
