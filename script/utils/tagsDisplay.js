@@ -1,7 +1,7 @@
 // @ts-nocheck
 // script/utils/tagsDisplay.js
 
-import { activeFilters, handleSearch, updateDisplay, filterRecipes } from "./search.js";
+import { activeFilters, updateDisplay, filterRecipes } from "./search.js";
 import { removeSpacesAndAccents } from "./removeSpacesAndAccents.js";
 
 export function addTag(text, type) {

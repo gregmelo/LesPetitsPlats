@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { setupClearIcon } from "../utils/clearIcon.js";
 import { createCounter } from "../utils/counter.js";
 import { setupHoverHandler } from "../utils/hoverHandler.js";
@@ -125,4 +127,10 @@ export function filterDropdown(input, dropdownContent) {
     const text = item.innerText.toLowerCase();
     item.style.display = text.includes(filter) ? "" : "none";
   });
+
+  // Filtrage des recettes en fonction du texte saisi dans le dropdown
+  const query = document.querySelector("#search-bar").value.toLowerCase();
+  const filteredRecipes = filterRecipes(query);
+  updateDisplay(filteredRecipes);
 }
+

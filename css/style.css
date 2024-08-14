@@ -88,6 +88,13 @@ header .titleSearch-container .form-container input:focus {
 }
 header .titleSearch-container .form-container .clear-icon {
   position: absolute;
+  right: 113px;
+  width: 13px;
+  height: 13px;
+  display: block;
+}
+header .titleSearch-container .form-container .reinit {
+  position: absolute;
   right: 85px;
   width: 13px;
   height: 13px;

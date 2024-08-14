@@ -1,4 +1,4 @@
-import { handleSearch } from './search.js'; // Importe la fonction handleSearch
+import { handleSearch, filterRecipes, updateDisplay} from './search.js'; // Importe la fonction handleSearch
 import { removeAllTags } from './tagsDisplay.js';
 
 export function setupClearIcon(inputElement, clearIconElement) {
@@ -11,8 +11,22 @@ export function setupClearIcon(inputElement, clearIconElement) {
     clearIconElement.style.display = 'none'; // Masque l'icône de suppression
     inputElement.focus(); // Reprend le focus sur le champ de recherche
     
-    // Réinitialise la recherche
-    handleSearch(); // Appelle handleSearch sans événement pour réinitialiser l'affichage
+    // Réinitialise la recherche mais en tenant compte des filtres actifs
+    const filteredRecipes = filterRecipes(''); // Appelle filterRecipes avec une chaîne vide pour filtrer uniquement en fonction des dropdowns
+    updateDisplay(filteredRecipes); // Met à jour l'affichage des recettes et des dropdowns
+  });
+}
+
+export function setupReinitIcon(inputElement, reinitIconElement, clearIconElement) {
+  inputElement.addEventListener('input', function() {
+    reinitIconElement.style.display = inputElement.value ? 'block' : 'none';
+  });
+
+  reinitIconElement.addEventListener('click', function() {
+    inputElement.value = ''; // Vide le champ de recherche
     removeAllTags(); // Supprime tous les tags
+    clearIconElement.style.display = 'none'; // Masque l'icône de suppression
+    reinitIconElement.style.display = 'none'; // Masque l'icône de réinitialisation
+    handleSearch(); // Appelle handleSearch sans événement pour réinitialiser l'affichage
   });
 }

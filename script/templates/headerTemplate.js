@@ -1,4 +1,4 @@
-import { setupClearIcon } from '../utils/clearIcon.js'; // Assurez-vous d'utiliser le bon chemin
+import { setupClearIcon, setupReinitIcon } from '../utils/clearIcon.js'; // Assurez-vous d'utiliser le bon chemin
 
 export function headerTemplate() {
   const headerTemplate = document.getElementById('header')
@@ -49,6 +49,12 @@ export function headerTemplate() {
   clearIcon.alt = 'Icône de suppression';
   clearIcon.style.display = 'none';
 
+  const reinitIcon = document.createElement('img');
+  reinitIcon.src = './assets/icons/arrow-rotate-left.svg';
+  reinitIcon.className = 'reinit';
+  reinitIcon.alt = 'Icône de réinitialisation de la recherche';
+  reinitIcon.style.display = 'none';
+
 
   // headerTemplate.appendChild(bgcHeader)
   headerTemplate.appendChild(logoHeader)
@@ -57,6 +63,7 @@ export function headerTemplate() {
   titleSearchContainer.appendChild(formContainer)
   formContainer.appendChild(searchInput)
   formContainer.appendChild(clearIcon);
+  formContainer.appendChild(reinitIcon);
   formContainer.appendChild(searchButton)
   searchButton.appendChild(searchIcon)
 
@@ -64,6 +71,11 @@ export function headerTemplate() {
     searchInput.addEventListener('input', function() {
       setupClearIcon(searchInput, clearIcon);
     });
+
+        // Ajout des événements pour afficher/cacher l'icône de reinitialisation
+        searchInput.addEventListener('input', function() {
+          setupReinitIcon(searchInput, reinitIcon, clearIcon);
+        });
 
   // Liens des images pour les états normal et hover
 const normalIcon = 'assets/icons/loop_cta_black.svg';
