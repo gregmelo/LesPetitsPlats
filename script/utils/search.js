@@ -7,6 +7,7 @@ import { removeSpacesAndAccents } from "./removeSpacesAndAccents.js"; // On impo
 import { addTag, removeTag } from "./tagsDisplay.js"; // On importe les fonctions pour gérer l'ajout et la suppression de tags
 import { filterDropdown } from "../templates/dropdownTemplate.js"; // On importe la fonction pour filtrer les éléments du menu déroulant
 import { updateCounter } from "./counter.js"; // On importe la fonction pour mettre à jour le compteur de recettes
+import {addItemsToDropdown} from "../page/index.js"; // On importe la fonction pour ajouter des éléments au menu déroulant
 
 // On utilise des objets pour garder les filtres actifs
 // On utilise Set pour stocker les filtres actifs, garantissant ainsi l'unicité des éléments
@@ -18,104 +19,138 @@ export const activeFilters = {
 
 // Fonction de gestion de la recherche
 export function handleSearch(event) {
-  // On récupère la requête de recherche à partir de l'événement et on la met en minuscules
   const query = event ? event.target.value.toLowerCase() : document.querySelector("#search-bar").value.toLowerCase();
 
   // On vérifie si la requête de recherche comporte au moins 3 caractères
-  if (query.length >= 3) {
-    // On filtre les recettes en fonction de la requête de recherche
+  if (query.length >= 3 || hasActiveFilters()) { // Modification ici pour prendre en compte les filtres même sans requête
     const filteredRecipes = filterRecipes(query);
-    // On met à jour l'affichage avec les recettes filtrées
     updateDisplay(filteredRecipes);
   } else {
-    // Si la requête est trop courte, on affiche toutes les recettes
     updateDisplay(recipes);
   }
+}
+
+// Fonction pour vérifier s'il y a des filtres actifs
+export function hasActiveFilters() {
+  return activeFilters.ingredients.size > 0 || activeFilters.appliances.size > 0 || activeFilters.ustensils.size > 0;
 }
 
 // Fonction de filtrage des recettes en fonction de la requête de recherche
 export function filterRecipes(query) {
   console.log("Filtres actifs:", activeFilters);
-  return recipes.filter((recipe) => {
+
+  const filteredRecipes = [];
+  console.log("filteredRecipes:", filteredRecipes);
+
+  for (let i = 0; i < recipes.length; i++) {
+    const recipe = recipes[i];
+
     // Vérifie si le titre de la recette correspond à la requête
     const titleMatch = recipe.name.toLowerCase().includes(query);
+
     // Vérifie si l'un des ingrédients correspond à la requête
-    const ingredientMatch = recipe.ingredients.some((ingredient) =>
-      ingredient.ingredient.toLowerCase().includes(query)
-    );
+    let ingredientMatch = false;
+    for (let j = 0; j < recipe.ingredients.length; j++) {
+      if (recipe.ingredients[j].ingredient.toLowerCase().includes(query)) {
+        ingredientMatch = true;
+        break;
+      }
+    }
+
     // Vérifie si la description correspond à la requête
     const descriptionMatch = recipe.description.toLowerCase().includes(query);
+
     // Vérifie si l'appareil utilisé correspond à la requête
     const applianceMatch = recipe.appliance.toLowerCase().includes(query);
+
     // Vérifie si l'un des ustensiles correspond à la requête
-    const ustensilMatch = recipe.ustensils.some((ustensil) =>
-      ustensil.toLowerCase().includes(query)
-    );
+    let ustensilMatch = false;
+    for (let k = 0; k < recipe.ustensils.length; k++) {
+      if (recipe.ustensils[k].toLowerCase().includes(query)) {
+        ustensilMatch = true;
+        break;
+      }
+    }
 
     // Vérifie si la recette correspond à l'une des conditions de recherche
-    const matchesQuery =
-      titleMatch ||
-      ingredientMatch ||
-      descriptionMatch ||
-      applianceMatch ||
-      ustensilMatch;
+    const matchesQuery = titleMatch || ingredientMatch || descriptionMatch || applianceMatch || ustensilMatch;
 
     // Vérifie si la recette correspond aux filtres actifs
-    const matchesFilters =
-      [...activeFilters.ingredients].every((filter) =>
-        recipe.ingredients.some(
-          (ingredient) => ingredient.ingredient.toLowerCase() === filter
-        )
-      ) &&
-      [...activeFilters.appliances].every(
-        (filter) => recipe.appliance.toLowerCase() === filter
-      ) &&
-      [...activeFilters.ustensils].every((filter) =>
-        recipe.ustensils.some((ustensil) => ustensil.toLowerCase() === filter)
-      );
+    let matchesFilters = true;
 
-    // Retourne vrai si la recette correspond à la fois à la recherche et aux filtres
-    return matchesQuery && matchesFilters;
-  });
+    // Vérification des filtres d'ingrédients
+    const activeIngredients = [...activeFilters.ingredients];
+    for (let j = 0; j < activeIngredients.length; j++) {
+      const filter = activeIngredients[j];
+      if (!recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase() === filter)) {
+        matchesFilters = false;
+        break;
+      }
+    }
+
+    // Vérification des filtres d'appareils
+    const activeAppliances = [...activeFilters.appliances];
+    for (let j = 0; j < activeAppliances.length; j++) {
+      const filter = activeAppliances[j];
+      if (recipe.appliance.toLowerCase() !== filter) {
+        matchesFilters = false;
+        break;
+      }
+    }
+
+    // Vérification des filtres d'ustensiles
+    const activeUstensils = [...activeFilters.ustensils];
+    for (let j = 0; j < activeUstensils.length; j++) {
+      const filter = activeUstensils[j];
+      if (!recipe.ustensils.some(ustensil => ustensil.toLowerCase() === filter)) {
+        matchesFilters = false;
+        break;
+      }
+    }
+
+    // Ajoute la recette à la liste filtrée si elle correspond à la recherche et aux filtres
+    if (matchesQuery && matchesFilters) {
+      filteredRecipes.push(recipe);
+    }
+  }
+
+  return filteredRecipes;
 }
-
 
 // Fonction de mise à jour de l'affichage des recettes
 export function updateDisplay(filteredRecipes) {
-  // On vide l'affichage actuel des recettes
   const recipeContainer = document.querySelector("#recipes-container");
   if (recipeContainer) {
     recipeContainer.innerHTML = "";
   }
 
-  // On vérifie que filteredRecipes est un tableau
   if (!Array.isArray(filteredRecipes)) {
     console.log("filteredRecipes doit être un tableau");
     return;
   }
 
-  // On affiche les recettes filtrées sous forme de cartes
   const cards = createRecipeCard(filteredRecipes);
-  updateCounter(); // Met à jour le compteur de recettes
-
-  // On met à jour les listes déroulantes en fonction des recettes filtrées
+  updateCounter();
   updateDropdowns(filteredRecipes);
 }
 
 // Fonction de mise à jour des listes déroulantes
 function updateDropdowns(filteredRecipes) {
-  // On extrait les éléments uniques (ingrédients, appareils, ustensiles) des recettes filtrées
-  const { ingredientsSet, appliancesSet, ustensilsSet } =
-    extractUniqueItems(filteredRecipes);
+  const { ingredientsSet, appliancesSet, ustensilsSet } = extractUniqueItems(filteredRecipes);
 
-  // On met à jour chaque liste déroulante avec les éléments extraits
-  updateDropdown("ingredients", ingredientsSet);
-  updateDropdown("appliances", appliancesSet);
-  updateDropdown("ustensils", ustensilsSet);
+  // Sauvegarde l'état des éléments sélectionnés
+  const selectedItems = {
+    ingredients: new Set([...document.querySelectorAll("#ingredients .dropdown-item.selected")].map(item => item.textContent.trim())),
+    appliances: new Set([...document.querySelectorAll("#appliances .dropdown-item.selected")].map(item => item.textContent.trim())),
+    ustensils: new Set([...document.querySelectorAll("#ustensils .dropdown-item.selected")].map(item => item.textContent.trim())),
+  };
+
+  updateDropdown("ingredients", ingredientsSet, selectedItems.ingredients);
+  updateDropdown("appliances", appliancesSet, selectedItems.appliances);
+  updateDropdown("ustensils", ustensilsSet, selectedItems.ustensils);
 }
 
-function updateDropdown(type, items) {
-  // On récupère le contenu du menu déroulant pour le type donné
+function updateDropdown(type, items, selectedItems) {
   const dropdownContent = document.querySelector(`#${type} .dropdown-content`);
   if (dropdownContent) {
     dropdownContent.innerHTML = "";
@@ -128,8 +163,7 @@ function updateDropdown(type, items) {
   searchInputDropdown.type = "text";
   searchInputDropdown.name = "searchDropdown";
   searchInputDropdown.className = "searchDropdown";
-  searchInputDropdown.oninput = () =>
-    filterDropdown(searchInputDropdown, dropdownContent);
+  searchInputDropdown.oninput = () => filterDropdown(searchInputDropdown, dropdownContent);
 
   const searchIcon = document.createElement("img");
   searchIcon.src = "./assets/icons/Loop_CTA_grey.svg";
@@ -146,79 +180,21 @@ function updateDropdown(type, items) {
   formSearch.appendChild(clearIconDropdown);
   formSearch.appendChild(searchIcon);
   dropdownContent.appendChild(formSearch);
-  // On parcourt chaque élément à ajouter au menu déroulant
+
+  // Fonction addItemsToDropdown pour ajouter les items
+  addItemsToDropdown(type, items);
+
+  // Restaure l'état des éléments sélectionnés
   items.forEach((item) => {
-    // On crée un nouvel élément de menu déroulant
-    const option = document.createElement("div");
-    option.className = "dropdown-item";
-    option.setAttribute("id", `item-${removeSpacesAndAccents(item)}`);
-    option.textContent = item;
-
-    // On vérifie si l'élément fait partie des filtres actifs
-    if (activeFilters[type].has(item.toLowerCase())) {
+    const itemId = `item-${removeSpacesAndAccents(item)}`;
+    const option = document.getElementById(itemId);
+    if (selectedItems.has(item)) {
       option.classList.add("selected");
-    }
-
-    // On crée une icône de suppression pour l'élément du menu déroulant
-    const clearItem = document.createElement("img");
-    clearItem.src = "./assets/icons/xmark_item.svg";
-    clearItem.className = "clear-iconItems";
-    clearItem.alt = "Icône de suppression";
-    // On affiche ou masque l'icône de suppression en fonction de l'état de sélection
-    clearItem.style.display = option.classList.contains("selected")
-      ? "block"
-      : "none";
-
-    // On ajoute un écouteur d'événement pour la suppression d'un tag
-    clearItem.addEventListener("click", (event) => {
-      console.log("je suis dans le clearItem");
-      console.log("option:", option);
-      // event.stopPropagation(); // On empêche la propagation de l'événement pour éviter des actions indésirables
-      option.classList.remove("selected"); // On retire la classe 'selected'
-      clearItem.style.display = "none"; // On masque l'icône de suppression
-      removeTag(`tag-${removeSpacesAndAccents(item)}`); // On supprime le tag correspondant
-      // On met à jour l'affichage avec les recettes filtrées
-      updateDisplay(
-        filterRecipes(document.querySelector("#search-bar").value.toLowerCase())
-      );
-      console.log("Tag supprimé:", item); // Log pour vérifier la suppression du tag
-    });
-
-    option.appendChild(clearItem);
-
-    // On ajoute un écouteur d'événement pour la sélection d'un élément
-    option.addEventListener("click", (event) => {
-      event.stopPropagation(); // On empêche la propagation du clic
-      if (activeFilters[type].has(item.toLowerCase())) {
-        console.log("je suis dans le if");
-        console.log("option:", option);
-        activeFilters[type].delete(item.toLowerCase()); // On supprime l'élément des filtres actifs
-        option.classList.remove("selected"); // On retire la classe 'selected'
-        clearItem.style.display = "none"; // On masque l'icône de suppression
-        removeTag(`tag-${removeSpacesAndAccents(item)}`); // On supprime le tag du DOM
-      } else {
-        console.log("je suis dans le else");
-        console.log("Active Filters:", activeFilters);
-        console.log("Active Filters (Array):", [...activeFilters[type]]);
-        console.log("item:", item);
-        console.log("type:", type);
-    
-        option.classList.add("selected"); // On ajoute la classe 'selected'
-        clearItem.style.display = "block"; // On affiche l'icône de suppression
-        activeFilters[type].add(item.toLowerCase()); // On ajoute l'élément aux filtres actifs
-        addTag(item, type); // On ajoute le tag au DOM ici
-        console.log("Tag ajouté:", item); // Log pour vérifier l'ajout du tag
+      const clearItem = option.querySelector(".clear-iconItems");
+      if (clearItem) {
+        clearItem.style.display = "block";
       }
-    
-      // On met à jour l'affichage avec les recettes filtrées
-      updateDisplay(
-        filterRecipes(document.querySelector("#search-bar").value.toLowerCase())
-      );
-    });
-    
-    
-
-    // On ajoute l'option créée au contenu du menu déroulant
-    dropdownContent.appendChild(option);
+    }
   });
 }
+

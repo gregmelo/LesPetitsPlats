@@ -1,9 +1,10 @@
-// @ts-nocheck
+//@ts-nocheck
 // script/utils/tagsDisplay.js
 
 import { activeFilters, updateDisplay, filterRecipes } from "./search.js";
 import { removeSpacesAndAccents } from "./removeSpacesAndAccents.js";
 
+// Fonction pour ajouter un tag
 export function addTag(text, type) {
   const tagsContainer = document.getElementById('tags-container');
   if (!tagsContainer) {
@@ -12,7 +13,6 @@ export function addTag(text, type) {
   }
 
   console.log("Tags container:", tagsContainer); // Log pour vérifier le conteneur des tags
-
   // Créez un élément de tag
   const tag = document.createElement('div');
   tag.className = 'tag';
@@ -38,7 +38,7 @@ export function addTag(text, type) {
 
   removeIcon.addEventListener('click', () => {
     tagsContainer.removeChild(tag); // Supprimer le tag de la vue
-    deselectDropdownItem(text, type, event); // Désélectionner l'élément dans le dropdown
+    deselectDropdownItem(text, type); // Désélectionner l'élément dans le dropdown
   });
 
   tag.appendChild(removeIcon);
@@ -50,15 +50,14 @@ export function addTag(text, type) {
 }
 
 // Fonction pour désélectionner un élément de dropdown
-function deselectDropdownItem(text, type, event) {
-  // Sélectionne le contenu du dropdown correspondant
+function deselectDropdownItem(text, type) {
   const dropdownContent = document.querySelector(`#${type} .dropdown-content`);
   if (dropdownContent) {
-    // Trouve l'élément de dropdown correspondant au texte
     const items = dropdownContent.querySelectorAll('.dropdown-item');
     items.forEach(item => {
-      if (item.textContent.trim() === text) {
-        // Désélectionne l'élément
+      console.log("item :", item);
+      if (removeSpacesAndAccents(item.textContent.trim()) === removeSpacesAndAccents(text)) {
+        console.log(`Removing 'selected' class from: ${item.textContent.trim()}`);
         item.classList.remove('selected');
         const clearIcon = item.querySelector('.clear-iconItems');
         if (clearIcon) {
@@ -68,20 +67,22 @@ function deselectDropdownItem(text, type, event) {
     });
   }
 
-  // Met à jour les filtres actifs en fonction du type
   const filterSet = activeFilters[type];
-  if (filterSet.has(text.toLowerCase())) {
-    filterSet.delete(text.toLowerCase());
+  if (filterSet.has(removeSpacesAndAccents(text).toLowerCase())) {
+    console.log(`Removing filter: ${text}`);
+    filterSet.delete(removeSpacesAndAccents(text).toLowerCase());
   }
 
-  // Met à jour l'affichage des recettes en fonction des filtres actifs et de la barre de recherche
   const query = document.querySelector("#search-bar").value.toLowerCase();
   const filteredRecipes = filterRecipes(query);
+  console.log(`Filtered recipes: ${filteredRecipes.length}`);
   updateDisplay(filteredRecipes);
 }
 
+
 // Fonction pour supprimer un tag
 export function removeTag(tagId) {
+  console.log("Tag à supprimer:", tagId); // Log pour vérifier l'ID du tag à supprimer
   const tagElement = document.getElementById(tagId);
   if (tagElement) {
     tagElement.remove();
