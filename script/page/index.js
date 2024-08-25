@@ -44,21 +44,23 @@ export function addItemsToDropdown(type, items) {
 
     option.addEventListener("click", (event) => {
       event.stopPropagation();
-      console.log("Item clicked:", item);
+      const normalizedItem = removeSpacesAndAccents(item).toLowerCase();
+      
       if (option.classList.contains("selected")) {
         option.classList.remove("selected");
         clearItem.style.display = "none";
-        removeTag(`tag-${removeSpacesAndAccents(item)}`);
-        activeFilters[type].delete(item.toLowerCase());
+        removeTag(`tag-${normalizedItem}`);
+        activeFilters[type].delete(normalizedItem);
       } else {
         option.classList.add("selected");
         clearItem.style.display = "block";
+        setupHoverHandler(dropdownContent, type);
         addTag(item, type);
-        activeFilters[type].add(item.toLowerCase());
+        activeFilters[type].add(normalizedItem);
       }
-      console.log("option.classList.contains('selected'):", option.classList.contains("selected"));
+    
       console.log("Active filters after click:", activeFilters);
-      handleSearch(); // Appelez handleSearch après chaque modification des filtres actifs
+      handleSearch(); // Mettre à jour l'affichage des recettes
     });
 
     clearItem.addEventListener("click", (event) => {

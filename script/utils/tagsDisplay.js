@@ -1,7 +1,7 @@
 //@ts-nocheck
 // script/utils/tagsDisplay.js
 
-import { activeFilters, updateDisplay, filterRecipes } from "./search.js";
+import { handleSearch, activeFilters, updateDisplay, filterRecipes } from "./search.js";
 import { removeSpacesAndAccents } from "./removeSpacesAndAccents.js";
 
 // Fonction pour ajouter un tag
@@ -12,7 +12,6 @@ export function addTag(text, type) {
     return;
   }
 
-  console.log("Tags container:", tagsContainer); // Log pour vérifier le conteneur des tags
   // Créez un élément de tag
   const tag = document.createElement('div');
   tag.className = 'tag';
@@ -39,25 +38,31 @@ export function addTag(text, type) {
   removeIcon.addEventListener('click', () => {
     tagsContainer.removeChild(tag); // Supprimer le tag de la vue
     deselectDropdownItem(text, type); // Désélectionner l'élément dans le dropdown
+    console.log("text pour deselectDropdownItem", text);
+    console.log("type pour deselectDropdownItem", type);
+    removeActiveFilter(type, text); // Supprimer le filtre actif
+    console.log("text pour removeActiveFilter", text);
+    console.log("type pour removeActiveFilter", type);
+    handleSearch(); // Mettre à jour l'affichage des recettes
   });
 
   tag.appendChild(removeIcon);
   tagsContainer.appendChild(tag);
-
-  console.log("Tag ajouté au DOM:", tag); // Log pour vérifier l'ajout du tag
-  console.log("Tag visible:", tag.offsetParent !== null); // Log pour vérifier la visibilité du tag
-  console.log("Contenu du conteneur des tags:", tagsContainer.innerHTML); // Log pour vérifier le contenu du conteneur des tags
 }
 
 // Fonction pour désélectionner un élément de dropdown
 function deselectDropdownItem(text, type) {
+  console.log("text dans le deselectDropdownItem", text);
+  console.log("type dans le deselectDropdownItem", type);
   const dropdownContent = document.querySelector(`#${type} .dropdown-content`);
   if (dropdownContent) {
     const items = dropdownContent.querySelectorAll('.dropdown-item');
     items.forEach(item => {
-      console.log("item :", item);
-      if (removeSpacesAndAccents(item.textContent.trim()) === removeSpacesAndAccents(text)) {
-        console.log(`Removing 'selected' class from: ${item.textContent.trim()}`);
+      if (removeSpacesAndAccents(item.textContent.trim()) === removeSpacesAndAccents(text))
+        console.log("item.textContent.trim() dans le deselectDropdownItem", item.textContent.trim());
+      console.log("removeSpacesAndAccents(item.textContent.trim()) dans le deselectDropdownItem", removeSpacesAndAccents(item.textContent.trim()));
+      console.log("removeSpacesAndAccents(text) dans le deselectDropdownItem", removeSpacesAndAccents(text));
+        {
         item.classList.remove('selected');
         const clearIcon = item.querySelector('.clear-iconItems');
         if (clearIcon) {
@@ -66,23 +71,31 @@ function deselectDropdownItem(text, type) {
       }
     });
   }
+}
 
+// Fonction pour supprimer un filtre actif
+function removeActiveFilter(type, text) {
+  
+  // Récupère l'ensemble des filtres actifs pour le type donné
   const filterSet = activeFilters[type];
-  if (filterSet.has(removeSpacesAndAccents(text).toLowerCase())) {
-    console.log(`Removing filter: ${text}`);
-    filterSet.delete(removeSpacesAndAccents(text).toLowerCase());
+  const normalizedText = removeSpacesAndAccents(text).toLowerCase(); // Normalisation
+  console.log("Tentative de suppression du filtre:", normalizedText);
+  
+  // Vérifie si l'ensemble des filtres contient l'élément avec les espaces et accents supprimés
+  if (filterSet.has(normalizedText)) {
+    
+    // Si l'élément est présent, le supprime de l'ensemble des filtres
+    filterSet.delete(normalizedText);
+    console.log("Filtre supprimé:", normalizedText);
+  } else {
+    console.log("Filtre non trouvé:", normalizedText);
   }
-
-  const query = document.querySelector("#search-bar").value.toLowerCase();
-  const filteredRecipes = filterRecipes(query);
-  console.log(`Filtered recipes: ${filteredRecipes.length}`);
-  updateDisplay(filteredRecipes);
+  console.log("État des filtres actifs après suppression:", activeFilters);
 }
 
 
 // Fonction pour supprimer un tag
 export function removeTag(tagId) {
-  console.log("Tag à supprimer:", tagId); // Log pour vérifier l'ID du tag à supprimer
   const tagElement = document.getElementById(tagId);
   if (tagElement) {
     tagElement.remove();
@@ -93,7 +106,6 @@ export function removeTag(tagId) {
 export function removeAllTags() {
   const tagsContainer = document.getElementById('tags-container');
   if (tagsContainer) {
-    // On supprime tous les enfants du conteneur des tags
     while (tagsContainer.firstChild) {
       tagsContainer.firstChild.remove();
     }

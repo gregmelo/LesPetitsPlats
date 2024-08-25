@@ -4,6 +4,7 @@ import { setupClearIcon } from "../utils/clearIcon.js";
 import { createCounter } from "../utils/counter.js";
 import { setupHoverHandler } from "../utils/hoverHandler.js";
 import { setupOutsideClickHandler } from "../utils/outsideClickHandler.js";
+import { filterRecipes, updateDisplay } from "../utils/search.js";
 
 export function dropdownTemplate() {
   const dropdownCounterContainer = document.getElementById(
@@ -67,7 +68,7 @@ function createDropdown(id, placeholder) {
   const dropdownContent = document.createElement("div");
   dropdownContent.className = "dropdown-content";
 
-  // Gére le survol des éléments de dropdown
+  // Gère le survol des éléments de dropdown
   setupHoverHandler(dropdownContent, id);
 
   const formSearch = document.createElement("form");
@@ -108,6 +109,7 @@ function createDropdown(id, placeholder) {
   return container;
 }
 
+
 function toggleDropdown(container, arrowImg) {
   container.classList.toggle("active");
 
@@ -123,14 +125,10 @@ function toggleDropdown(container, arrowImg) {
 export function filterDropdown(input, dropdownContent) {
   const filter = input.value.toLowerCase();
   const items = dropdownContent.querySelectorAll(".dropdown-item");
+  
   items.forEach((item) => {
     const text = item.innerText.toLowerCase();
     item.style.display = text.includes(filter) ? "" : "none";
   });
-
-  // Filtrage des recettes en fonction du texte saisi dans le dropdown
-  const query = document.querySelector("#search-bar").value.toLowerCase();
-  const filteredRecipes = filterRecipes(query);
-  updateDisplay(filteredRecipes);
 }
 
