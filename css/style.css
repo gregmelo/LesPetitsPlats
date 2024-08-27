@@ -342,10 +342,9 @@ main {
   text-align: left;
   color: #1b1b1b;
   margin: 0;
-  line-clamp: 4;
-  -webkit-line-clamp: 4;
   display: -webkit-box;
   -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
   overflow: hidden;
   text-overflow: ellipsis;
 }
