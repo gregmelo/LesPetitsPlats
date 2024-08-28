@@ -40,33 +40,40 @@ export function filterRecipes(query) {
   console.log("Filtres actifs:", activeFilters);
 
   const filteredRecipes = [];
-  console.log("filteredRecipes:", filteredRecipes);
+  const normalizedQuery = removeSpacesAndAccents(query);
 
   for (let i = 0; i < recipes.length; i++) {
     const recipe = recipes[i];
 
+    // Normaliser les chaînes de caractères pour la comparaison
+    const normalizedTitle = removeSpacesAndAccents(recipe.name);
+    const normalizedDescription = removeSpacesAndAccents(recipe.description);
+    const normalizedAppliance = removeSpacesAndAccents(recipe.appliance);
+
     // Vérifie si le titre de la recette correspond à la requête
-    const titleMatch = recipe.name.toLowerCase().includes(query);
+    const titleMatch = normalizedTitle.includes(normalizedQuery);
 
     // Vérifie si l'un des ingrédients correspond à la requête
     let ingredientMatch = false;
     for (let j = 0; j < recipe.ingredients.length; j++) {
-      if (recipe.ingredients[j].ingredient.toLowerCase().includes(query)) {
+      const normalizedIngredient = removeSpacesAndAccents(recipe.ingredients[j].ingredient);
+      if (normalizedIngredient.includes(normalizedQuery)) {
         ingredientMatch = true;
         break;
       }
     }
 
     // Vérifie si la description correspond à la requête
-    const descriptionMatch = recipe.description.toLowerCase().includes(query);
+    const descriptionMatch = normalizedDescription.includes(normalizedQuery);
 
     // Vérifie si l'appareil utilisé correspond à la requête
-    const applianceMatch = recipe.appliance.toLowerCase().includes(query);
+    const applianceMatch = normalizedAppliance.includes(normalizedQuery);
 
     // Vérifie si l'un des ustensiles correspond à la requête
     let ustensilMatch = false;
     for (let k = 0; k < recipe.ustensils.length; k++) {
-      if (recipe.ustensils[k].toLowerCase().includes(query)) {
+      const normalizedUstensil = removeSpacesAndAccents(recipe.ustensils[k]);
+      if (normalizedUstensil.includes(normalizedQuery)) {
         ustensilMatch = true;
         break;
       }
@@ -81,8 +88,8 @@ export function filterRecipes(query) {
     // Vérification des filtres d'ingrédients
     const activeIngredients = [...activeFilters.ingredients];
     for (let j = 0; j < activeIngredients.length; j++) {
-      const filter = activeIngredients[j];
-      if (!recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase() === filter)) {
+      const filter = removeSpacesAndAccents(activeIngredients[j]);
+      if (!recipe.ingredients.some(ingredient => removeSpacesAndAccents(ingredient.ingredient) === filter)) {
         matchesFilters = false;
         break;
       }
@@ -91,8 +98,8 @@ export function filterRecipes(query) {
     // Vérification des filtres d'appareils
     const activeAppliances = [...activeFilters.appliances];
     for (let j = 0; j < activeAppliances.length; j++) {
-      const filter = activeAppliances[j];
-      if (recipe.appliance.toLowerCase() !== filter) {
+      const filter = removeSpacesAndAccents(activeAppliances[j]);
+      if (removeSpacesAndAccents(recipe.appliance) !== filter) {
         matchesFilters = false;
         break;
       }
@@ -101,8 +108,8 @@ export function filterRecipes(query) {
     // Vérification des filtres d'ustensiles
     const activeUstensils = [...activeFilters.ustensils];
     for (let j = 0; j < activeUstensils.length; j++) {
-      const filter = activeUstensils[j];
-      if (!recipe.ustensils.some(ustensil => ustensil.toLowerCase() === filter)) {
+      const filter = removeSpacesAndAccents(activeUstensils[j]);
+      if (!recipe.ustensils.some(ustensil => removeSpacesAndAccents(ustensil) === filter)) {
         matchesFilters = false;
         break;
       }
@@ -116,6 +123,7 @@ export function filterRecipes(query) {
 
   return filteredRecipes;
 }
+
 
 // Fonction de mise à jour de l'affichage des recettes
 export function updateDisplay(filteredRecipes) {
