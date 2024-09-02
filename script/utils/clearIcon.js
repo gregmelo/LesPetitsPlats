@@ -1,3 +1,4 @@
+import { deselectAllDropdownItems } from './deselectDropdown.js';
 import { handleSearch, filterRecipes, updateDisplay} from './search.js'; // Importe la fonction handleSearch
 import { removeAllTags } from './tagsDisplay.js';
 
@@ -25,6 +26,7 @@ export function setupReinitIcon(inputElement, reinitIconElement, clearIconElemen
   reinitIconElement.addEventListener('click', function() {
     inputElement.value = ''; // Vide le champ de recherche
     removeAllTags(); // Supprime tous les tags
+    deselectAllDropdownItems(); // Désélectionne tous les éléments des dropdowns
     clearIconElement.style.display = 'none'; // Masque l'icône de suppression
     reinitIconElement.style.display = 'none'; // Masque l'icône de réinitialisation
     handleSearch(); // Appelle handleSearch sans événement pour réinitialiser l'affichage
