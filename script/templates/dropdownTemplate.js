@@ -4,6 +4,7 @@ import { setupClearIcon } from "../utils/clearIcon.js";
 import { createCounter } from "../utils/counter.js";
 import { setupHoverHandler } from "../utils/hoverHandler.js";
 import { setupOutsideClickHandler } from "../utils/outsideClickHandler.js";
+import { sanitizeInput } from "../utils/sanitizeInput.js";
 
 export function dropdownTemplate() {
   const dropdownCounterContainer = document.getElementById(
@@ -100,10 +101,29 @@ function createDropdown(id, placeholder) {
   container.appendChild(button);
   container.appendChild(dropdownContent);
 
-  // Ajout des événements pour afficher/cacher l'icône de suppression
-  searchInputDropdown.addEventListener("input", () => {
-    setupClearIcon(searchInputDropdown, clearIconDropdown);
-  });
+// Gére les événements d'entrée pour assainir l'input et gérer les icônes
+searchInputDropdown.addEventListener('input', function() {
+  // Récupére la valeur actuelle de l'input
+  const userInput = searchInputDropdown.value;
+
+  // Assaini l'entrée utilisateur
+  const safeInput = sanitizeInput(userInput);
+
+  // Met à jour la valeur de l'input avec la valeur assainie
+  searchInputDropdown.value = safeInput;
+
+  // Filtre les éléments du dropdown en fonction de l'entrée utilisateur assainie
+  filterDropdown(searchInputDropdown, dropdownContent);
+
+  // Gére l'affichage de l'icône de suppression
+  clearIconDropdown.style.display = safeInput ? "inline-block" : "none";
+});
+// Icône de suppression : effacer le champ de recherche et réinitialiser le dropdown
+clearIconDropdown.addEventListener('click', function() {
+  searchInputDropdown.value = '';
+  filterDropdown(searchInputDropdown, dropdownContent);
+  clearIconDropdown.style.display = "none";
+});
 
   return container;
 }

@@ -14,7 +14,7 @@ export function setupHoverHandler(dropdownContent, type) {
       console.log("itemText", itemText);
       
       // On bascule l'état de sélection de l'élément cliqué
-      clickedItem.classList.toggle('selected');
+      clickedItem.classList.add('selected');
       
       // On met à jour la visibilité de l'icône de suppression en fonction de l'état de sélection
       updateClearIconVisibility(clickedItem);

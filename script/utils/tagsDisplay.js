@@ -1,7 +1,7 @@
 // @ts-nocheck
 // script/utils/tagsDisplay.js
 
-import { activeFilters, updateDisplay, filterRecipes } from "./search.js";
+import { activeFilters, updateDisplay, filterRecipes, handleSearch } from "./search.js";
 import { removeSpacesAndAccents } from "./removeSpacesAndAccents.js";
 
 export function addTag(text, type) {
@@ -38,7 +38,9 @@ export function addTag(text, type) {
 
   removeIcon.addEventListener('click', () => {
     tagsContainer.removeChild(tag); // Supprimer le tag de la vue
-    deselectDropdownItem(text, type, event); // Désélectionner l'élément dans le dropdown
+    deselectDropdownItem(text, type); // Désélectionner l'élément dans le dropdown
+    removeActiveFilter(type, text); // Supprimer le filtre actif
+    handleSearch(); // Mettre à jour l'affichage des recettes
   });
 
   tag.appendChild(removeIcon);
@@ -57,7 +59,7 @@ function deselectDropdownItem(text, type, event) {
     // Trouve l'élément de dropdown correspondant au texte
     const items = dropdownContent.querySelectorAll('.dropdown-item');
     items.forEach(item => {
-      if (item.textContent.trim() === text) {
+      if (removeSpacesAndAccents(item.textContent.trim()) === removeSpacesAndAccents(text)) {
         // Désélectionne l'élément
         item.classList.remove('selected');
         const clearIcon = item.querySelector('.clear-iconItems');
@@ -68,16 +70,36 @@ function deselectDropdownItem(text, type, event) {
     });
   }
 
-  // Met à jour les filtres actifs en fonction du type
-  const filterSet = activeFilters[type];
-  if (filterSet.has(text.toLowerCase())) {
-    filterSet.delete(text.toLowerCase());
-  }
+  // // Met à jour les filtres actifs en fonction du type
+  // const filterSet = activeFilters[type];
+  // if (filterSet.has(text.toLowerCase())) {
+  //   filterSet.delete(text.toLowerCase());
+  // }
 
-  // Met à jour l'affichage des recettes en fonction des filtres actifs et de la barre de recherche
-  const query = document.querySelector("#search-bar").value.toLowerCase();
-  const filteredRecipes = filterRecipes(query);
-  updateDisplay(filteredRecipes);
+  // // Met à jour l'affichage des recettes en fonction des filtres actifs et de la barre de recherche
+  // const query = document.querySelector("#search-bar").value.toLowerCase();
+  // const filteredRecipes = filterRecipes(query);
+  // updateDisplay(filteredRecipes);
+}
+
+// Fonction pour supprimer un filtre actif
+function removeActiveFilter(type, text) {
+  
+  // Récupère l'ensemble des filtres actifs pour le type donné
+  const filterSet = activeFilters[type];
+  const normalizedText = removeSpacesAndAccents(text).toLowerCase(); // Normalisation
+  console.log("Tentative de suppression du filtre:", normalizedText);
+  
+  // Vérifie si l'ensemble des filtres contient l'élément avec les espaces et accents supprimés
+  if (filterSet.has(normalizedText)) {
+    
+    // Si l'élément est présent, le supprime de l'ensemble des filtres
+    filterSet.delete(normalizedText);
+    console.log("Filtre supprimé:", normalizedText);
+  } else {
+    console.log("Filtre non trouvé:", normalizedText);
+  }
+  console.log("État des filtres actifs après suppression:", activeFilters);
 }
 
 // Fonction pour supprimer un tag
