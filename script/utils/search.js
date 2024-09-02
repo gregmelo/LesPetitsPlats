@@ -21,11 +21,12 @@ export const activeFilters = {
 export function handleSearch(event) {
   const query = event ? event.target.value.toLowerCase() : document.querySelector("#search-bar").value.toLowerCase();
 
-  // On vérifie si la requête de recherche comporte au moins 3 caractères
-  if (query.length >= 3 || hasActiveFilters()) { // Modification ici pour prendre en compte les filtres même sans requête
+  // On vérifie si la requête de recherche comporte au moins 3 caractères ou s'il y a des filtres actifs
+  if (query.length >= 3 || hasActiveFilters()) { 
     const filteredRecipes = filterRecipes(query);
     updateDisplay(filteredRecipes);
   } else {
+    // Affiche toutes les recettes si aucun filtre n'est actif et que la recherche est vide
     updateDisplay(recipes);
   }
 }
